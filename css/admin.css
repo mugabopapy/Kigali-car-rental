@@ -4,6 +4,9 @@
 
 .admin-body { background: var(--bg); }
 
+/* ensure the hidden attribute always wins over display rules */
+[hidden] { display: none !important; }
+
 /* ---- login gate ---- */
 .login-gate {
   min-height: 100vh;
