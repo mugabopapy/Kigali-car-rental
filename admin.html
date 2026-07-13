@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — Car Rental of Rwanda</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/admin.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔑</text></svg>" />
+</head>
+<body class="admin-body">
+
+  <!-- ============ LOGIN GATE ============ -->
+  <div class="login-gate" id="loginGate">
+    <div class="login-card">
+      <div class="logo" style="justify-content:center;margin-bottom:18px;">
+        <span class="logo-mark">🔑</span>
+        <span>Owner Admin<small>CAR RENTAL OF RWANDA</small></span>
+      </div>
+      <p class="login-hint">Enter your admin password to manage your website.</p>
+      <input type="password" id="adminPass" placeholder="Admin password" autocomplete="current-password" />
+      <button class="btn btn-primary btn-block" id="loginBtn">Unlock Admin Panel</button>
+      <p class="login-note">Default password: <b>rwanda2026</b> — change it immediately in Settings after logging in.</p>
+      <p class="login-note"><a href="index.html">← Back to website</a></p>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN APP ============ -->
+  <div class="admin-app" id="adminApp" hidden>
+    <header class="admin-header">
+      <div class="container nav">
+        <a class="logo" href="index.html">
+          <span class="logo-mark">🔑</span>
+          <span>Owner Admin<small>CAR RENTAL OF RWANDA</small></span>
+        </a>
+        <div class="nav-cta">
+          <a href="index.html" class="btn btn-sm btn-yellow" target="_blank">👁 View Site</a>
+          <button class="btn btn-sm btn-outline-dark" id="logoutBtn">Log out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="container admin-main">
+
+      <div class="admin-banner">
+        <b>ℹ️ How publishing works:</b> changes you save here take effect instantly <u>in this browser</u> (great for previewing).
+        To publish to all visitors, click <b>“⬇ Download data file”</b> below and replace <code>js/cars-data.js</code> on your hosting (or send the file to your developer).
+      </div>
+
+      <!-- ==== tabs ==== -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="cars">🚗 Manage Cars</button>
+        <button class="admin-tab" data-tab="settings">⚙️ Settings</button>
+        <button class="admin-tab" data-tab="publish">📤 Publish / Backup</button>
+      </div>
+
+      <!-- ==== CARS TAB ==== -->
+      <section class="tab-panel" id="tab-cars">
+        <div class="panel-head">
+          <h2>Your Fleet (<span id="carCount">0</span> cars)</h2>
+          <button class="btn btn-primary btn-sm" id="addCarBtn">＋ Add New Car</button>
+        </div>
+        <div class="admin-car-list" id="adminCarList"></div>
+      </section>
+
+      <!-- ==== SETTINGS TAB ==== -->
+      <section class="tab-panel" id="tab-settings" hidden>
+        <h2>Website Settings</h2>
+        <form class="settings-form" id="settingsForm">
+          <div class="form-row">
+            <div class="field">
+              <label>Business name</label>
+              <input type="text" id="setBusinessName" />
+            </div>
+            <div class="field">
+              <label>WhatsApp number (bookings go here — digits only, with country code)</label>
+              <input type="text" id="setWhatsapp" placeholder="250783930289" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>MoMo number shown to clients</label>
+              <input type="text" id="setMomo" placeholder="+250 783930289" />
+            </div>
+            <div class="field">
+              <label>MoMo dial code shown to clients</label>
+              <input type="text" id="setMomoDial" placeholder="*182*1*1*0783930289*AMOUNT#" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Deposit % required to confirm booking</label>
+              <input type="number" id="setDeposit" min="0" max="100" />
+            </div>
+            <div class="field">
+              <label>USD → RWF rate (for price estimates)</label>
+              <input type="number" id="setRate" min="1" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label>Contact email</label>
+              <input type="email" id="setEmail" />
+            </div>
+            <div class="field">
+              <label>Office address</label>
+              <input type="text" id="setAddress" />
+            </div>
+          </div>
+          <hr class="settings-divider" />
+          <div class="form-row">
+            <div class="field">
+              <label>Change admin password (leave empty to keep current)</label>
+              <input type="password" id="setNewPass" placeholder="New password" autocomplete="new-password" />
+            </div>
+            <div class="field"></div>
+          </div>
+          <button type="submit" class="btn btn-primary">💾 Save Settings</button>
+        </form>
+      </section>
+
+      <!-- ==== PUBLISH TAB ==== -->
+      <section class="tab-panel" id="tab-publish" hidden>
+        <h2>Publish &amp; Backup</h2>
+        <div class="publish-grid">
+          <div class="publish-card">
+            <h3>⬇ Download data file</h3>
+            <p>Generates a fresh <code>cars-data.js</code> containing all your current cars and settings. Replace the file at <code>js/cars-data.js</code> on your hosting to publish your changes to every visitor.</p>
+            <button class="btn btn-primary" id="exportBtn">⬇ Download cars-data.js</button>
+          </div>
+          <div class="publish-card">
+            <h3>🗂 Backup / Restore (JSON)</h3>
+            <p>Download a backup of everything, or restore from a previous backup file.</p>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;">
+              <button class="btn btn-sm btn-primary" id="backupBtn">Download backup</button>
+              <label class="btn btn-sm btn-yellow" style="cursor:pointer;">Restore backup<input type="file" id="restoreInput" accept=".json" hidden /></label>
+            </div>
+          </div>
+          <div class="publish-card danger">
+            <h3>♻ Reset to defaults</h3>
+            <p>Discard all local changes in this browser and go back to the fleet shipped in <code>cars-data.js</code>.</p>
+            <button class="btn btn-sm" id="resetBtn" style="background:#e05252;color:#fff;">Reset everything</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- ==== CAR EDITOR MODAL ==== -->
+  <div class="modal-backdrop" id="carModal" hidden>
+    <div class="modal">
+      <div class="modal-head">
+        <h3 id="modalTitle">Add New Car</h3>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <form id="carForm">
+        <div class="form-row">
+          <div class="field">
+            <label>Model name *</label>
+            <input type="text" id="cModel" placeholder="e.g. Toyota RAV4" required />
+          </div>
+          <div class="field">
+            <label>Type label (shown on card) *</label>
+            <input type="text" id="cType" placeholder="e.g. Compact SUV" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Category *</label>
+            <select id="cCategory" required>
+              <option value="suv">SUV &amp; 4x4</option>
+              <option value="sedan">Sedans</option>
+              <option value="safari">Safari 4x4</option>
+              <option value="van">Vans &amp; Groups</option>
+              <option value="pickup">Pickups</option>
+              <option value="luxury">Luxury &amp; VIP</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Price per day (USD) *</label>
+            <input type="number" id="cPrice" min="1" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Seats *</label>
+            <input type="number" id="cSeats" min="1" max="60" required />
+          </div>
+          <div class="field">
+            <label>Transmission *</label>
+            <select id="cTransmission"><option>Automatic</option><option>Manual</option></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Fuel *</label>
+            <select id="cFuel"><option>Petrol</option><option>Diesel</option><option>Hybrid</option><option>Electric</option></select>
+          </div>
+          <div class="field">
+            <label>Badge (optional, e.g. "Most Popular")</label>
+            <input type="text" id="cBadge" placeholder="Leave empty for none" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Description *</label>
+          <textarea id="cDesc" required placeholder="Describe the car, what trips it's perfect for..."></textarea>
+        </div>
+        <div class="field">
+          <label>Features (comma separated)</label>
+          <input type="text" id="cFeatures" placeholder="4WD, A/C, Bluetooth" />
+        </div>
+        <div class="field">
+          <label>Photo</label>
+          <div class="photo-picker">
+            <img id="cPhotoPreview" src="" alt="" hidden />
+            <label class="btn btn-sm btn-yellow" style="cursor:pointer;">📷 Upload photo<input type="file" id="cPhotoFile" accept="image/*" hidden /></label>
+            <input type="text" id="cImagePath" placeholder="…or image path e.g. images/my-car.jpg" style="flex:1;min-width:200px;font-family:var(--font);font-size:0.85rem;padding:10px 12px;border:1.5px solid var(--line);border-radius:10px;" />
+          </div>
+          <p class="field-hint">Tip: uploaded photos preview instantly in this browser. To publish for all visitors, also upload the photo file to your hosting's <code>images/</code> folder and use its path here.</p>
+        </div>
+        <div class="field">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;">
+            <input type="checkbox" id="cAvailable" checked style="width:18px;height:18px;" />
+            Available for booking (untick to show "Currently Booked")
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="carSaveBtn">💾 Save Car</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="js/cars-data.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>
